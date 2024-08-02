@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@app": ["app"],
+      "@app/*": ["app/*"],
+      "@assets": ["assets"],
+      "@assets/*": ["assets/*"],
+      "@pages": ["pages"],
+      "@pages/*": ["pages/*"],
+      "@routes": ["routes"],
+      "@routes/*": ["routes/*"],
+      "@modules": ["modules"],
+      "@modules/*": ["modules/*"],
+      "@components/*": ["components/*"],
+      "@components": ["components"],
+      "@constants/*": ["constants/*"],
+      "@constants": ["components"]
+    },
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+    "lib": ["es2017", "dom"],
+    "target": "es6"
+  },
+  "include": ["src/**/*", "vite-env.d.ts"]
+}
