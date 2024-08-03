@@ -6,17 +6,24 @@ import { useTheme } from '@mui/material/styles';
 import { useAppSelector } from '@app/store/hook';
 import { PAGE_ROUTES_PUBLIC } from '@app/routes/types';
 import { useAuth } from '@modules/auth';
-import Logo from './components/Logo';
-import { Button, SvgIcon, Typography } from '@mui/material';
+import { Button, Drawer, SvgIcon, Typography } from '@mui/material';
 import CustomModal from '@components/common/Modal';
 import LogoutIcon from '@assets/icons/logout-icon.svg?react';
+import Sidebar from './components/Sidebar';
+import { DRAWER_WIDTH } from '@constants/drawer';
 
 const PrivateLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);
   const { logout } = useAuth();
+
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
 
   const onClose = () => {
@@ -34,11 +41,45 @@ const PrivateLayout = () => {
   return (
     <>
       <Box sx={{ display: 'flex' }}>
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{ keepMounted: true }}
+          sx={{
+            borderRadius: 0,
+            paddingBottom: 0,
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: DRAWER_WIDTH,
+              borderRadius: 0,
+              paddingBottom: '32px',
+            },
+          }}>
+          <Sidebar />
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: DRAWER_WIDTH,
+              borderRadius: 0,
+              paddingBottom: '32px',
+            },
+          }}
+          open>
+          <Sidebar />
+        </Drawer>
         <Box
           component="main"
           sx={{
             ...theme.mixins.toolbar,
             flex: 1,
+            width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+            ml: { sm: `${DRAWER_WIDTH}px` },
           }}>
           <Toolbar sx={{
             display: 'flex',
