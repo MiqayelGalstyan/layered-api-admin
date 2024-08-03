@@ -46,7 +46,7 @@ const PromoteEventModal: FC<IPromoteEventModalProps> = ({ open, onClose }) => {
             state: null,
             event: '',
         },
-        resolver: yupResolver(PromoteSchema),
+        // resolver: yupResolver(PromoteSchema),
     });
 
 

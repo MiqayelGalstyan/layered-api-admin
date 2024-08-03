@@ -1,4 +1,4 @@
-import { profileApi, useLazyGetProfileQuery } from '@modules/profile';
+import { useLazyGetProfileQuery } from '@modules/profile';
 import { useLoginMutation } from '../api/auth.api';
 import { setTokens, setUser, clear } from '../store/auth.slice';
 import { LoginRequest } from '../types';
@@ -45,7 +45,7 @@ export const useAuth = () => {
   const getProfileAfterLogin = async (tokens: ITokensPayload) => {
     console.log(tokens, 'tokens')
     dispatch(setTokens(tokens));
-    // await fetchUser();
+    await fetchUser();
   };
 
   return {

@@ -9,7 +9,6 @@ import { useAppSelector } from '@app/store/hook';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@modules/auth';
 import { PAGE_ROUTES_PUBLIC } from '@app/routes/types';
-import UserConfirmationModal from '@components/common/UserConfirmationModal';
 
 const UserBadge = () => {
   const user = useAppSelector(({ auth }) => auth.user);
@@ -44,7 +43,7 @@ const UserBadge = () => {
       }}>
       <Avatar
         sx={{ width: 40, height: 40, marginRight: 2 }}
-        src={user?.avatar}
+        src={user?.ImagePath}
       />
       <Box
         sx={{
@@ -55,10 +54,10 @@ const UserBadge = () => {
         }}>
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="subtitle1" noWrap>
-            {user?.firstName}
+            {user?.FirstName}
           </Typography>
           <Typography variant="body2" noWrap color="text.secondary">
-            {user?.email}
+            {user?.Email}
           </Typography>
         </Box>
         <IconButton
@@ -76,14 +75,6 @@ const UserBadge = () => {
           <ExitToIcon />
         </IconButton>
       </Box>
-      <UserConfirmationModal
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirmLogout}
-        title="Log out"
-        description="Are you sure you want to log out?"
-        confirmButtonText="Log out"
-      />
     </Box>
   );
 };

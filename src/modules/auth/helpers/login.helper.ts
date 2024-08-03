@@ -12,4 +12,7 @@ export const LoginSchema = yup.object().shape({
       PASSWORD_REGEX,
       'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.',
     ),
+  isRemembered: yup
+    .boolean()
+    .required(),
 });

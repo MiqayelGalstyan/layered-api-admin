@@ -42,7 +42,7 @@ const PrivateLayout = () => {
           }}>
           <Toolbar sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
             alignItems: 'center',
             backgroundColor: theme.palette.common.black,
             paddingRight: '50px!important',

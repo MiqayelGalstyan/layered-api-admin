@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 import { PAGE_ROUTES_PRIVATE } from '@app/routes/types';
 import useToast from '@app/hooks/useToast';
 import { useTheme } from '@mui/material/styles';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const LoginContainer: React.FC = () => {
   const theme = useTheme();
@@ -27,6 +30,7 @@ const LoginContainer: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
+      isRemembered: false,
     },
     resolver: yupResolver(LoginSchema),
   });
@@ -113,7 +117,27 @@ const LoginContainer: React.FC = () => {
             )}
           />
         </Stack>
-        <Stack gap={'24px'} mt="40px">
+        <Stack>
+          <Controller
+            name="isRemembered"
+            control={control}
+            render={({ field }) => (
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      {...field}
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                    />
+                  }
+                  label="Remember"
+                />
+              </FormGroup>
+            )}
+          />
+        </Stack>
+        <Stack gap={'24px'} mt="10px">
           <Button
             type="submit"
             variant="contained"
