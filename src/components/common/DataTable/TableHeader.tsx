@@ -34,14 +34,14 @@ const TableHeader = <T,>({ columns, onSort }: ITableHeaderProps<T>) => {
           columns.map((column: IColumn<T>, index: number) => (
             <CellWrapper
               key={index}
-              cellWidth={column.columnWidth}
+              width={column.columnWidth}
               className={column.className}
             >
               <DataTableCell
-                flexRow
-                columnPadding={column.padding}
-                tableHeader
-                flexJustify={column.flexJustify}
+                $flexRow
+                padding={column.padding}
+                $tableHeader
+                $flexJustify={column.flexJustify}
               >
                 <TableHeaderText>{column.title}</TableHeaderText>
                 {column.sortable && (

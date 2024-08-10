@@ -18,6 +18,7 @@ import { AuthPartial, AuthState } from '@modules/auth/types/auth.type';
 import { authApi } from '@modules/auth/api/auth.api';
 import { profileApi } from '@modules/profile';
 import { googlePlaceApi } from '@modules/googlePlace';
+import { userApi } from '@modules/users';
 
 
 
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   auth: authSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
   [googlePlaceApi.reducerPath]: googlePlaceApi.reducer,
 });
 
@@ -68,6 +70,7 @@ export const store = configureStore({
     }).concat(
       authApi.middleware,
       profileApi.middleware,
+      userApi.middleware,
       googlePlaceApi.middleware,
     ),
 });

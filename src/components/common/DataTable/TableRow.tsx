@@ -18,12 +18,12 @@ const TableRow = <T,>({ columns, row }: ITableRowProps<T>) => {
             return (
               <CellWrapper
                 key={index}
-                cellWidth={column.columnWidth}
+                width={column.columnWidth}
                 className={column.className}
               >
                 <DataTableCell
-                  columnPadding={column.padding}
-                  flexRow={column.flexRow}
+                  padding={column.padding}
+                  $flexRow={column.flexRow}
                 >
                   {column?.render(row, index)}
                 </DataTableCell>
@@ -34,12 +34,12 @@ const TableRow = <T,>({ columns, row }: ITableRowProps<T>) => {
           return (
             <CellWrapper
               key={index}
-              cellWidth={column.columnWidth}
+              width={column.columnWidth}
               className={column.className}
             >
               <DataTableCell
-                columnPadding={column.padding}
-                flexRow={column.flexRow}
+                padding={column.padding}
+                $flexRow={column.flexRow}
               >
                 <DataTableCellText>
                   {typedRow[column.fieldName]}

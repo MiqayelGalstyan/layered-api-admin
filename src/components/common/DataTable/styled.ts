@@ -2,7 +2,7 @@ import { styled } from '@mui/system';
 import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 
-const DataTableContainer = styled(Table)(({ theme }) => ({
+const TableMain = styled(Table)(({ theme }) => ({
   width: '100%',
   borderCollapse: 'collapse',
   overflowX: 'auto',
@@ -32,27 +32,24 @@ const DataTableRow = styled(TableRow)(({ theme }) => ({
   borderCollapse: 'collapse',
 }));
 
-const CellWrapper = styled(TableCell)<{ cellWidth?: number }>(({ theme, cellWidth }) => ({
+const CellWrapper = styled(TableCell)<{ width?: number }>(({ theme, width }) => ({
   borderCollapse: 'collapse',
   borderStyle: 'solid',
   borderColor: theme.palette.grey[300],
   borderWidth: '1px',
-  width: cellWidth ? `${cellWidth}px` : 'auto',
+  width: width ? `${width}px` : 'auto',
   padding: 0,
 }));
 
-const DataTableCell = styled(Box)<{
-  tableHeader?: boolean;
-  flexRow?: boolean;
-  flexJustify?: string;
-  columnPadding?: string;
-}>(({ tableHeader, flexRow, flexJustify, columnPadding }) => ({
-  padding: columnPadding ? columnPadding : tableHeader ? '10px' : '20px',
-  display: flexRow ? 'flex' : 'block',
-  justifyContent: flexJustify || 'flex-start',
+const DataTableCell = styled(Box, {
+  shouldForwardProp: (prop: PropertyKey) => typeof prop === 'string' && !['$flexRow', '$flexJustify', '$tableHeader', '$columnPadding'].includes(prop),
+})<{ $flexRow?: boolean; $flexJustify?: string; $tableHeader?: boolean; $columnPadding?: string }>(({ $flexRow, $flexJustify, $tableHeader, $columnPadding, theme }) => ({
+  padding: $columnPadding || ($tableHeader ? '10px' : '20px'),
+  display: $flexRow ? 'flex' : 'block',
+  justifyContent: $flexJustify || 'flex-start',
   alignItems: 'center',
   minHeight: '58px',
-  backgroundColor: tableHeader ? '#F5F5F5' : 'transparent',
+  backgroundColor: $tableHeader ? '#F5F5F5' : 'transparent',
 }));
 
 const SortableIconsContainer = styled(Box)({
@@ -96,7 +93,7 @@ const TBody = styled(TableBody)({
 });
 
 export {
-  DataTableContainer,
+  TableMain,
   DataTableHeader,
   DataTableRow,
   CellWrapper,

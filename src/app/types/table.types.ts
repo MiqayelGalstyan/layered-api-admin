@@ -16,3 +16,11 @@ export enum SortDirectionType {
     ASC = 'ASC',
     DESC = 'DESC',
 };
+
+
+export interface IPagedResult<T> {
+    items: T[];
+    totalCount: number;
+    page: number;
+    limit: number;
+}

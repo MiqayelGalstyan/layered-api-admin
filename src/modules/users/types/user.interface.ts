@@ -1,3 +1,6 @@
+import { IPagination } from "@app/types/pagination.types";
+import { IPagedResult } from "@app/types/table.types";
+
 export interface IUser {
     Id: number;
     Email: string;
@@ -7,9 +10,11 @@ export interface IUser {
     RoleId: number;
 }
 
-export interface IUsersResponse {
-    data: IUser[];
-    total: number;
+export type UsersResponse = IPagedResult<IUser>;
+
+
+export interface IGetUsersPayload extends IPagination {
+    SearchQuery?: string;
 }
 
 export enum UserTableEnum {
