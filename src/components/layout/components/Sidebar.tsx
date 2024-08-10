@@ -6,7 +6,7 @@ import MenuItem, { NavigationItem, MENU_ITEMS } from './MenuItem';
 import { PAGE_ROUTES_PRIVATE } from '@app/routes/types';
 
 const navigationItems: NavigationItem[] = [
-  { text: MENU_ITEMS.USERS, route: PAGE_ROUTES_PRIVATE.EVENTS },
+  { text: MENU_ITEMS.USERS, route: PAGE_ROUTES_PRIVATE.USERS },
 ];
 
 const Sidebar: React.FC = () => {

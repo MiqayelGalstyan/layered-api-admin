@@ -30,7 +30,7 @@ const EventsContainer = () => {
         marginBottom: '10px',
       }}>
         <Typography sx={{ fontWeight: '600', fontSize: 30, letterSpacing: 0 }}>
-          Sponsored Events
+          Users
         </Typography>
         <Button
           variant="contained"

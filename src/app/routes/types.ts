@@ -4,5 +4,6 @@ export enum PAGE_ROUTES_PUBLIC {
 }
 
 export enum PAGE_ROUTES_PRIVATE {
-  EVENTS = '/events',
+  USERS = '/users',
+  PROFILE = '/profile',
 }

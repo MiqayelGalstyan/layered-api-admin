@@ -13,7 +13,7 @@ interface AppBarProps {
 
 export enum APP_BAR_TITLES {
   DASHBOARD = 'Dashboard',
-  EVENTS = 'Events',
+  USERS = 'Users',
   TRANSACTIONS = 'Transactions',
   STRIPE_ACCOUNTS = 'Stripe Accounts',
   SETTINGS = 'Settings',
@@ -25,8 +25,8 @@ const NavBar: React.FC<AppBarProps> = ({ mobileOpen, handleDrawerToggle }) => {
 
   const getTitle = () => {
     switch (pathname) {
-      case PAGE_ROUTES_PRIVATE.EVENTS:
-        return APP_BAR_TITLES.EVENTS;
+      case PAGE_ROUTES_PRIVATE.USERS:
+        return APP_BAR_TITLES.USERS;
       default:
         return '';
     }

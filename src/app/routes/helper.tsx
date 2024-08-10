@@ -10,14 +10,16 @@ const LoginPage = lazy(() => import('../../components/pages/LoginPage'));
 
 const NotFoundPage = lazy(() => import('../../components/pages/NotFoundPage'));
 
-const EventsPage = lazy(() => import('../../components/pages/EventsPage'));
+const UsersPage = lazy(() => import('../../components/pages/UsersPage'));
+
+const ProfilePage = lazy(() => import('../../components/pages/ProfilePage'));
 
 const publicRoutes: RouteObject[] = [
   {
     path: PAGE_ROUTES_PUBLIC.HOME,
     element: (
       <GuardRoute
-        redirectPath={PAGE_ROUTES_PUBLIC.HOME}
+        redirectPath={PAGE_ROUTES_PRIVATE.USERS}
         check={isAuthenticated => isAuthenticated}>
         <LoginPage />
       </GuardRoute>
@@ -27,7 +29,7 @@ const publicRoutes: RouteObject[] = [
     path: PAGE_ROUTES_PUBLIC.LOGIN,
     element: (
       <GuardRoute
-        redirectPath={PAGE_ROUTES_PUBLIC.HOME}
+        redirectPath={PAGE_ROUTES_PRIVATE.USERS}
         check={isAuthenticated => isAuthenticated}>
         <LoginPage />
       </GuardRoute>
@@ -37,12 +39,32 @@ const publicRoutes: RouteObject[] = [
 
 const privateRoutes: RouteObject[] = [
   {
-    path: PAGE_ROUTES_PRIVATE.EVENTS,
+    path: PAGE_ROUTES_PUBLIC.HOME,
     element: (
       <GuardRoute
-        redirectPath={PAGE_ROUTES_PRIVATE.EVENTS}
+        redirectPath={PAGE_ROUTES_PRIVATE.USERS}
         check={isAuthenticated => !isAuthenticated}>
-        <EventsPage />
+        <UsersPage />
+      </GuardRoute>
+    ),
+  },
+  {
+    path: PAGE_ROUTES_PRIVATE.USERS,
+    element: (
+      <GuardRoute
+        redirectPath={PAGE_ROUTES_PUBLIC.HOME}
+        check={isAuthenticated => !isAuthenticated}>
+        <UsersPage />
+      </GuardRoute>
+    ),
+  },
+  {
+    path: PAGE_ROUTES_PRIVATE.PROFILE,
+    element: (
+      <GuardRoute
+        redirectPath={PAGE_ROUTES_PUBLIC.HOME}
+        check={isAuthenticated => !isAuthenticated}>
+        <ProfilePage />
       </GuardRoute>
     ),
   },

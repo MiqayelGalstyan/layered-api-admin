@@ -1,24 +1,49 @@
-import { useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import { useAppSelector } from '@app/store/hook';
-import { PAGE_ROUTES_PUBLIC } from '@app/routes/types';
-import { useAuth } from '@modules/auth';
+import { PAGE_ROUTES_PRIVATE, PAGE_ROUTES_PUBLIC } from '@app/routes/types';
+import { setUser, useAuth } from '@modules/auth';
 import { Button, Drawer, SvgIcon, Typography } from '@mui/material';
 import CustomModal from '@components/common/Modal';
 import LogoutIcon from '@assets/icons/logout-icon.svg?react';
 import Sidebar from './components/Sidebar';
 import { DRAWER_WIDTH } from '@constants/drawer';
+import { useLazyGetProfileQuery } from '@modules/profile';
+import { useAppDispatch } from '@app/store';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const PrivateLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const dispatch = useAppDispatch();
+
   const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);
   const { logout } = useAuth();
+
+  const navigate = useNavigate();
+
+  const [getProfile] = useLazyGetProfileQuery();
+
+
+  const fetchUser = async () => {
+    try {
+      const { data: userProfileData } = await getProfile().unwrap();
+      dispatch(setUser(userProfileData));
+      console.log('User profile fetched successfully');
+    } catch (error) {
+      console.error('Fetching user profile failed:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
 
   const handleDrawerToggle = () => {
@@ -32,6 +57,10 @@ const PrivateLayout = () => {
 
   const onOpen = () => {
     setOpen(true);
+  }
+
+  const navigateToProfile = () => {
+    navigate(PAGE_ROUTES_PRIVATE.PROFILE);
   }
 
   if (!isAuthenticated) {
@@ -89,6 +118,11 @@ const PrivateLayout = () => {
             paddingRight: '50px!important',
             maxWidth: '100%',
           }}>
+            <Button onClick={navigateToProfile}>
+              <AccountBoxIcon fill='white' sx={{
+                fill: 'white'
+              }} />
+            </Button>
             <Typography
               sx={{
                 color: theme.palette.common.white,
@@ -117,7 +151,7 @@ const PrivateLayout = () => {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center',
-            width: 688,
+            width: 460,
             height: 214,
             margin: '0 auto',
             backgroundColor: 'white',
@@ -136,7 +170,7 @@ const PrivateLayout = () => {
             <Typography variant='h3'
               color={theme.palette.grey['900']}
               sx={{
-                fontSize: '30px',
+                fontSize: '20px',
                 letterSpacing: 0,
                 marginTop: '10px',
               }}>Would you like to log out?</Typography>
@@ -144,14 +178,14 @@ const PrivateLayout = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '15px 3% 0',
+              padding: '25px 3% 0',
             }}>
               <Button
                 type="button"
                 variant="contained"
                 sx={{
                   backgroundColor: theme.palette.common['white'],
-                  width: '304px',
+                  width: '204px',
                   color: theme.palette.common['black'],
                   boxShadow: 'unset',
                   border: `1px solid ${theme.palette.grey['300']}`,
@@ -169,7 +203,7 @@ const PrivateLayout = () => {
                 variant="contained"
                 sx={{
                   backgroundColor: theme.palette.common['black'],
-                  width: '304px',
+                  width: '204px',
                   boxShadow: 'unset',
                   border: `1px solid ${theme.palette.common['black']}`,
                   fontSize: '16px',

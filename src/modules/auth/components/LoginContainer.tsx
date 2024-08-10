@@ -43,7 +43,7 @@ const LoginContainer: React.FC = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async data => {
     try {
       await login(data);
-      navigate(PAGE_ROUTES_PRIVATE.EVENTS);
+      navigate(PAGE_ROUTES_PRIVATE.USERS);
       toast.success('Login successful!');
     } catch (error) {
       toast.error('Login failed. Please check your credentials and try again.');

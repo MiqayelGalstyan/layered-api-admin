@@ -28,11 +28,7 @@ export const baseQueryWithReAuth: BaseQueryFunction = (prefix = '') => {
       const { error } = result as { error: RequestError };
 
       if (
-        error.data &&
-        typeof error.data === 'object' &&
-        'error' in error.data &&
-        (error.data.error === RequestErrorKey.TOKEN_EXPIRED ||
-          error.data.error === RequestErrorKey.INVALID_TOKEN)
+        error.originalStatus === 401
       ) {
         if (!mutex.isLocked()) {
           const release = await mutex.acquire();
@@ -50,13 +46,15 @@ export const baseQueryWithReAuth: BaseQueryFunction = (prefix = '') => {
             if (refreshToken) {
               const refreshResult = await authQuery(
                 {
-                  url: 'refresh-token',
+                  url: 'refreshToken',
                   method: 'POST',
                   body: { refreshToken },
                 },
                 api,
                 extraOptions,
               );
+
+
 
               if (refreshResult.data) {
                 console.log('store new token', refreshResult.data);
