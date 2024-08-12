@@ -2,12 +2,13 @@ import { IPagination } from "@app/types/pagination.types";
 import { IPagedResult } from "@app/types/table.types";
 
 export interface IUser {
-    Id: number;
-    Email: string;
-    FirstName: string;
-    LastName: string;
-    ImagePath: string;
-    RoleId: number;
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    imagePath: string;
+    roleId: number;
+    roleName: string;
 }
 
 export type UsersResponse = IPagedResult<IUser>;
@@ -24,4 +25,6 @@ export enum UserTableEnum {
     LAST_NAME = 'lastName',
     IMAGE_PATH = 'imagePath',
     ROLE_ID = 'roleId',
+    ROLE_NAME = 'roleName',
+    ACTIONS = 'actions',
 }

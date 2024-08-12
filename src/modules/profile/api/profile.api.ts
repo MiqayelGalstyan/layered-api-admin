@@ -15,9 +15,7 @@ export const profileApi = createApi({
     tagTypes: ['UserProfile'],
     endpoints: builder => ({
         getProfile: builder.query<
-            {
-                data: IUser;
-            },
+            IUser,
             void
         >({
             query: () => '/profile',

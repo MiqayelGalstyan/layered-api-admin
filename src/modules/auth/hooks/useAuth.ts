@@ -33,7 +33,7 @@ export const useAuth = () => {
 
   const fetchUser = async () => {
     try {
-      const { data: userProfileData } = await getProfile().unwrap();
+      const userProfileData = await getProfile().unwrap();
       dispatch(setUser(userProfileData));
       console.log('User profile fetched successfully');
     } catch (error) {

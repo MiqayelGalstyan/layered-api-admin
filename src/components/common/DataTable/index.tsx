@@ -9,7 +9,8 @@ import {
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import { IColumn } from '@app/types/table.types';
-import { Box, Container, Paper, TableContainer, TablePagination } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Container, Paper, TableContainer, TablePagination } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 interface IDataTableProps<T> {
   columns: Array<IColumn<T>>;
@@ -17,6 +18,7 @@ interface IDataTableProps<T> {
   total: number;
   activePage: number;
   rowsPerPage?: number;
+  isLoading?: boolean;
   onPageChange: (page: number) => void;
   onLimitChange: (limit: number) => void;
   onSort?: (column: IColumn<T>) => void;
@@ -35,7 +37,10 @@ const DataTable = <T,>({
   rowsPerPage = rowsPerPageOptions[0],
   onPageChange,
   onLimitChange,
+  isLoading = false,
 }: IDataTableProps<T>): ReactNode => {
+
+  const theme = useTheme();
 
   const renderRows = useMemo((): ReactNode => {
     return data.length > 0 ? (
@@ -54,25 +59,43 @@ const DataTable = <T,>({
   }, [data, columns]);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', padding: 0 }}>
-        <TableContainer>
-          <TableMain className={containerClassName}>
-            <TableHeader columns={columns} onSort={onSort} />
-            <TBody>{renderRows}</TBody>
-          </TableMain>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={rowsPerPageOptions}
-          component="div"
-          count={total}
-          rowsPerPage={rowsPerPage}
-          page={activePage}
-          onPageChange={(_, page) => onPageChange(page)}
-          onRowsPerPageChange={(event) => onLimitChange(parseInt(event.target.value, 10))}
-        />
-      </Paper>
-    </Box>
+    <>
+      {isLoading && (
+        <Backdrop
+          sx={{
+            color: '#fff',
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            backdropFilter: 'blur(6px)',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}
+          open
+        >
+          <CircularProgress sx={{
+            color: theme.palette.grey['700'],
+          }} />
+        </Backdrop>
+      )}
+
+      <Box sx={{ width: '100%' }}>
+        <Paper sx={{ width: '100%', padding: 0 }}>
+          <TableContainer>
+            <TableMain className={containerClassName}>
+              <TableHeader columns={columns} onSort={onSort} />
+              <TBody>{renderRows}</TBody>
+            </TableMain>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={total}
+            rowsPerPage={rowsPerPage}
+            page={activePage}
+            onPageChange={(_, page) => onPageChange(page)}
+            onRowsPerPageChange={(event) => onLimitChange(parseInt(event.target.value, 10))}
+          />
+        </Paper>
+      </Box>
+    </>
   );
 };
 

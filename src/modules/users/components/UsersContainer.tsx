@@ -1,16 +1,67 @@
 import DataTable from '@components/common/DataTable';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { usersColumns } from '../data/columns';
-import { useGetUsersQuery } from '../api/user.api';
+import { useGetUsersQuery, useRemoveUserMutation } from '../api/user.api';
+import { IUser, UserTableEnum } from '../types/user.interface';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from 'react';
+import DeleteUserModal from './DeleteUserModal';
+import useToast from '@app/hooks/useToast';
+import { useAppSelector } from '@app/store/hook';
+import { Role } from '@app/types/role.types';
 
 
 const UsersContainer = () => {
 
-    const { data } = useGetUsersQuery({ page: 1, limit: 10 })
+    const { data, isLoading, refetch } = useGetUsersQuery({ page: 1, limit: 10 });
+    const [removeUser, { isLoading: isUserDeleteLoading }] = useRemoveUserMutation();
+
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [selectedUserId, setSelectedUserId] = useState<number | undefined>();
+
+    const user = useAppSelector(({ auth }) => auth.user);
+
+    const toast = useToast();
+
+    const onModalOpen = (id: number) => {
+        setIsModalOpen(true);
+        setSelectedUserId(id);
+    }
 
 
-    if (!data) {
-        return null;
+    const columns = [
+        ...usersColumns,
+        ...(user?.roleId === Role.SUPER_ADMIN ? [
+            {
+                fieldName: UserTableEnum.ACTIONS,
+                title: 'Actions',
+                sortable: false,
+                render: (row: IUser) => (
+                    <Button onClick={() => onModalOpen(row.id)}><DeleteIcon color='error' /></Button>
+                )
+            }
+        ] : []),
+    ];
+
+    const onModalClose = () => {
+        setIsModalOpen(false);
+        setSelectedUserId(undefined);
+    }
+
+    const onDeleteUser = async () => {
+        if (!selectedUserId) {
+            return;
+        }
+        try {
+            const isDeleted = await removeUser(selectedUserId).unwrap();
+            if (isDeleted) {
+                onModalClose();
+                refetch();
+                toast.success('Successfully deleted');
+            }
+        } catch (error) {
+            console.log(error, 'error')
+        }
     }
 
 
@@ -30,13 +81,15 @@ const UsersContainer = () => {
                     Users
                 </Typography>
                 <DataTable
-                    columns={usersColumns}
-                    data={data.items}
+                    columns={columns}
+                    data={data?.items || []}
                     activePage={0}
-                    total={data.totalCount}
+                    total={data?.totalCount || 0}
+                    isLoading={isLoading || isUserDeleteLoading}
                     onPageChange={() => console.log('fdsfd')}
                     onLimitChange={() => console.log('qqqqq')} />
             </Box>
+            <DeleteUserModal onClose={onModalClose} open={isModalOpen} onSubmit={onDeleteUser} />
         </>
     )
 }

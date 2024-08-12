@@ -35,10 +35,11 @@ export interface IDeleteProfileRequest {
 
 
 export interface IUser {
-    Id: number;
-    Email: string;
-    FirstName: string;
-    LastName: string;
-    ImagePath: string;
-    RoleId: number;
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    imagePath: string;
+    roleId: number;
+    roleName: string;
 }

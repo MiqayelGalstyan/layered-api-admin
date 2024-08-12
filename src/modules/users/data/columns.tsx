@@ -1,5 +1,6 @@
 import { IColumn } from "@app/types/table.types";
 import { IUser, UserTableEnum } from "../types/user.interface";
+import { Button } from "@mui/material";
 
 export const usersColumns: IColumn<IUser>[] = [
     {
@@ -9,8 +10,8 @@ export const usersColumns: IColumn<IUser>[] = [
         columnWidth: 130,
     },
     {
-        fieldName: UserTableEnum.ROLE_ID,
-        title: 'Role Id',
+        fieldName: UserTableEnum.ROLE_NAME,
+        title: 'Role',
         sortable: true,
         columnWidth: 130,
     },

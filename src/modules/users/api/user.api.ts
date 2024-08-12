@@ -15,10 +15,17 @@ export const userApi = createApi({
                 params,
             }),
         }),
+        removeUser: builder.mutation<boolean, number>({
+            query: id => ({
+                url: `/user/${id}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 });
 
 export const {
     useLazyGetUsersQuery,
     useGetUsersQuery,
+    useRemoveUserMutation,
 } = userApi;

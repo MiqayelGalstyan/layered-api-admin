@@ -45,7 +45,7 @@ const EventsTable = () => {
 
   const fetchUser = async () => {
     try {
-      const { data: userProfileData } = await getProfile().unwrap();
+      const userProfileData = await getProfile().unwrap();
       dispatch(setUser(userProfileData));
     } catch (error) {
       console.error('Fetching user profile failed:', error);

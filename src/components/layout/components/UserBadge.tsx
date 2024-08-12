@@ -43,7 +43,7 @@ const UserBadge = () => {
       }}>
       <Avatar
         sx={{ width: 40, height: 40, marginRight: 2 }}
-        src={user?.ImagePath}
+        src={user?.imagePath}
       />
       <Box
         sx={{
@@ -54,10 +54,10 @@ const UserBadge = () => {
         }}>
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="subtitle1" noWrap>
-            {user?.FirstName}
+            {user?.firstName}
           </Typography>
           <Typography variant="body2" noWrap color="text.secondary">
-            {user?.Email}
+            {user?.email}
           </Typography>
         </Box>
         <IconButton
