@@ -36,9 +36,11 @@ const UsersContainer = () => {
                 fieldName: UserTableEnum.ACTIONS,
                 title: 'Actions',
                 sortable: false,
-                render: (row: IUser) => (
-                    <Button onClick={() => onModalOpen(row.id)}><DeleteIcon color='error' /></Button>
-                )
+                render: (row: IUser) => {
+                    return user.id !== row.id ? (
+                        <Button onClick={() => onModalOpen(row.id)}><DeleteIcon color='error' /></Button>
+                    ) : null
+                }
             }
         ] : []),
     ];
