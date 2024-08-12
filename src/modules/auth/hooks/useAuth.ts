@@ -43,7 +43,6 @@ export const useAuth = () => {
   };
 
   const getProfileAfterLogin = async (tokens: ITokensPayload) => {
-    console.log(tokens, 'tokens')
     dispatch(setTokens(tokens));
     await fetchUser();
   };
