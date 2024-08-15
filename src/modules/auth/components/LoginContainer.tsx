@@ -8,7 +8,6 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from '@modules/auth/helpers/login.helper';
-import FormTextField from './FormTextField';
 import { LoginRequest } from '@modules/auth/types';
 import { useAuth } from '@modules/auth';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +17,7 @@ import { useTheme } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import FormTextField from '@components/common/FormTextField';
 
 const LoginContainer: React.FC = () => {
   const theme = useTheme();

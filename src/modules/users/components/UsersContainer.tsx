@@ -9,6 +9,7 @@ import DeleteUserModal from './DeleteUserModal';
 import useToast from '@app/hooks/useToast';
 import { useAppSelector } from '@app/store/hook';
 import { Role } from '@app/types/role.types';
+import { RequestError } from '@app/types/error';
 
 
 const UsersContainer = () => {
@@ -37,9 +38,12 @@ const UsersContainer = () => {
                 title: 'Actions',
                 sortable: false,
                 render: (row: IUser) => {
-                    return user.id !== row.id ? (
-                        <Button onClick={() => onModalOpen(row.id)}><DeleteIcon color='error' /></Button>
-                    ) : null
+                    if (user.id !== row.id) {
+                        return (
+                            <Button onClick={() => onModalOpen(row.id)}><DeleteIcon color='error' /></Button>
+                        )
+                    }
+                    return null;
                 }
             }
         ] : []),
@@ -57,12 +61,14 @@ const UsersContainer = () => {
         try {
             const isDeleted = await removeUser(selectedUserId).unwrap();
             if (isDeleted) {
-                onModalClose();
                 refetch();
                 toast.success('Successfully deleted');
             }
         } catch (error) {
-            console.log(error, 'error')
+            const errorMessage = error as RequestError;
+            toast.error(errorMessage.data);
+        } finally {
+            onModalClose();
         }
     }
 
@@ -73,25 +79,31 @@ const UsersContainer = () => {
                 paddingLeft: '50px',
                 paddingRight: '50px',
                 marginTop: '35px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
                 marginBottom: '10px',
             }}>
-                <Typography sx={{ fontWeight: '600', fontSize: 30, letterSpacing: 0, mb: 5 }}>
-                    Users
-                </Typography>
-                <DataTable
-                    columns={columns}
-                    data={data?.items || []}
-                    activePage={0}
-                    total={data?.totalCount || 0}
-                    isLoading={isLoading || isUserDeleteLoading}
-                    onPageChange={() => console.log('fdsfd')}
-                    onLimitChange={() => console.log('qqqqq')} />
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                }}>
+                    <Typography sx={{ fontWeight: '600', fontSize: 30, letterSpacing: 0, mb: 5 }}>
+                        Users
+                    </Typography>
+                    <DataTable
+                        columns={columns}
+                        data={data?.items || []}
+                        activePage={0}
+                        total={data?.totalCount || 0}
+                        isLoading={isLoading || isUserDeleteLoading}
+                        onPageChange={() => console.log('fdsfd')}
+                        onLimitChange={() => console.log('qqqqq')} />
+                </Box>
             </Box>
-            <DeleteUserModal onClose={onModalClose} open={isModalOpen} onSubmit={onDeleteUser} />
+            <DeleteUserModal
+                onClose={onModalClose}
+                open={isModalOpen}
+                onSubmit={onDeleteUser} />
         </>
     )
 }

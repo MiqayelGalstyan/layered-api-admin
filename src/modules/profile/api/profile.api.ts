@@ -1,8 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import {
     IDeleteProfileRequest,
+    IEditProfilePayload,
     IUpdateEmailRequest,
-    IUpdateProfileRequest,
     IUpdateVerifyEmailRequest,
     IUser,
 } from '../types';
@@ -24,7 +24,7 @@ export const profileApi = createApi({
             query: userId => `/profile/${userId}`,
             providesTags: ['UserProfile'],
         }),
-        updateProfile: builder.mutation<void, Partial<IUpdateProfileRequest>>({
+        updateProfile: builder.mutation<IUser, Partial<IEditProfilePayload>>({
             query: body => ({
                 url: '/profile',
                 method: 'PUT',

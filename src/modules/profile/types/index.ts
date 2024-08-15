@@ -8,19 +8,6 @@ export interface ILocation {
     latitude: number;
 }
 
-export interface IUpdateProfileRequest {
-    username: string;
-    firstName: string;
-    lastName: string;
-    bio: string;
-    address: string;
-    birthDate: string;
-    latitude: string;
-    longitude: string;
-    avatar: string;
-    visibility: UserVisibility;
-}
-
 export interface IUpdateEmailRequest {
     email: string;
 }
@@ -32,6 +19,13 @@ export interface IDeleteProfileRequest {
     username: string;
 }
 
+
+export interface IEditProfilePayload {
+    email: string;
+    firstName: string;
+    lastName: string;
+    imagePath?: string;
+}
 
 
 export interface IUser {

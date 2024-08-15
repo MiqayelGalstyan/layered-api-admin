@@ -4,7 +4,6 @@ import {
     IDeleteProfileRequest,
     ILocation,
     IUpdateEmailRequest,
-    IUpdateProfileRequest,
     IUpdateVerifyEmailRequest,
     UserVisibility
 } from './types';
@@ -13,6 +12,7 @@ import {
 export const {
     useGetUserProfileQuery,
     useLazyGetProfileQuery,
+    useUpdateProfileMutation,
 } = profileApi;
 
 export {
@@ -25,7 +25,6 @@ export type {
     IDeleteProfileRequest,
     ILocation,
     IUpdateEmailRequest,
-    IUpdateProfileRequest,
     IUpdateVerifyEmailRequest,
     UserVisibility,
 }
