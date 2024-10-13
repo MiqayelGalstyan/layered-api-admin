@@ -12,6 +12,8 @@ const NotFoundPage = lazy(() => import('../../components/pages/NotFoundPage'));
 
 const UsersPage = lazy(() => import('../../components/pages/UsersPage'));
 
+const RolesPage = lazy(() => import('../../components/pages/RolesPage'));
+
 const ProfilePage = lazy(() => import('../../components/pages/ProfilePage'));
 
 const publicRoutes: RouteObject[] = [
@@ -55,6 +57,16 @@ const privateRoutes: RouteObject[] = [
         redirectPath={PAGE_ROUTES_PUBLIC.HOME}
         check={isAuthenticated => !isAuthenticated}>
         <UsersPage />
+      </GuardRoute>
+    ),
+  },
+  {
+    path: PAGE_ROUTES_PRIVATE.ROLES,
+    element: (
+      <GuardRoute
+        redirectPath={PAGE_ROUTES_PUBLIC.HOME}
+        check={isAuthenticated => !isAuthenticated}>
+        <RolesPage />
       </GuardRoute>
     ),
   },

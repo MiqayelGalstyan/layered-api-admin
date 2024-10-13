@@ -23,7 +23,7 @@ const TableMain = styled(Table)(({ theme }) => ({
 
 const DataTableHeader = styled(TableRow)(({ theme }) => ({
   border: `1px solid ${theme.palette.grey[300]}`,
-  borderCollapse: 'collapse',
+  background: `${theme.palette.grey[200]}`,
 }));
 
 const DataTableRow = styled(TableRow)(({ theme }) => ({

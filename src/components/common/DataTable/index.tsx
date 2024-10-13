@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import {
   CellWrapper,
   TableMain,
@@ -9,7 +9,7 @@ import {
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import { IColumn } from '@app/types/table.types';
-import { Backdrop, Box, CircularProgress, Container, Paper, TableContainer, TablePagination } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Paper, TableContainer, TablePagination } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 interface IDataTableProps<T> {
@@ -72,7 +72,8 @@ const DataTable = <T,>({
         >
           <CircularProgress sx={{
             color: theme.palette.grey['700'],
-          }} />
+          }}
+          />
         </Backdrop>
       )}
 
@@ -83,16 +84,16 @@ const DataTable = <T,>({
               <TableHeader columns={columns} onSort={onSort} />
               <TBody>{renderRows}</TBody>
             </TableMain>
+            <TablePagination
+              rowsPerPage={rowsPerPage}
+              page={activePage}
+              onPageChange={(_, page) => onPageChange(page)}
+              onRowsPerPageChange={(event) => onLimitChange(parseInt(event.target.value, 10))}
+              rowsPerPageOptions={rowsPerPageOptions}
+              count={total}
+              component="div"
+            />
           </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={rowsPerPageOptions}
-            component="div"
-            count={total}
-            rowsPerPage={rowsPerPage}
-            page={activePage}
-            onPageChange={(_, page) => onPageChange(page)}
-            onRowsPerPageChange={(event) => onLimitChange(parseInt(event.target.value, 10))}
-          />
         </Paper>
       </Box>
     </>

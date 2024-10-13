@@ -1,15 +1,15 @@
-import TopIcon from '@mui/icons-material/North';
 import {
-  CellWrapper,
-  DataTableCell,
   DataTableHeader,
-  SortableButton,
-  SortableIconsContainer,
-  TableHeaderText,
   THead,
 } from './styled';
 import { IColumn, SortDirectionType } from '@app/types/table.types';
 import { useState } from 'react';
+import {
+  TableCell,
+  TableSortLabel,
+  styled,
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 interface ITableHeaderProps<T> {
   columns: Array<IColumn<T>>;
@@ -17,6 +17,8 @@ interface ITableHeaderProps<T> {
 }
 
 const TableHeader = <T,>({ columns, onSort }: ITableHeaderProps<T>) => {
+  const theme = useTheme();
+
   const [sortDirection, setSortDirection] = useState<{ [key: string]: SortDirectionType }>({});
 
   const handleSort = (column: IColumn<T>) => {
@@ -32,36 +34,44 @@ const TableHeader = <T,>({ columns, onSort }: ITableHeaderProps<T>) => {
       <DataTableHeader>
         {columns.length > 0 &&
           columns.map((column: IColumn<T>, index: number) => (
-            <CellWrapper
+            <TableCell
               key={index}
-              width={column.columnWidth}
-              className={column.className}
-            >
-              <DataTableCell
-                $flexRow
-                padding={column.padding}
-                $tableHeader
-                $flexJustify={column.flexJustify}
-              >
-                <TableHeaderText>{column.title}</TableHeaderText>
-                {column.sortable && (
-                  <SortableIconsContainer>
-                    <SortableButton
-                      onClick={() => handleSort(column)}
-                      style={{
-                        transform: sortDirection[column.fieldName] === SortDirectionType.ASC ? 'none' : 'rotate(180deg)',
-                      }}
-                    >
-                      <TopIcon />
-                    </SortableButton>
-                  </SortableIconsContainer>
-                )}
-              </DataTableCell>
-            </CellWrapper>
+              sortDirection={
+                column.sortable
+                  ? sortDirection[column.fieldName] === SortDirectionType.ASC
+                    ? 'asc'
+                    : 'desc'
+                  : undefined
+              }
+              sx={{
+                width: column.columnWidth,
+                minWidth: column.columnWidth,
+                border: `1px solid ${theme.palette.grey[300]}`
+              }}>
+              <StyledTableSortLabel
+                hideSortIcon={!column.sortable}
+                active={column.sortable}
+                direction={
+                  column.sortable
+                    ? sortDirection[column.fieldName] === SortDirectionType.ASC
+                      ? 'asc'
+                      : 'desc'
+                    : undefined
+                }
+                onClick={() => handleSort(column)}>
+                {column.title}
+              </StyledTableSortLabel>
+            </TableCell>
           ))}
       </DataTableHeader>
     </THead>
   );
 };
+
+const StyledTableSortLabel = styled(TableSortLabel)(({ theme }) => ({
+  '& .MuiTableSortLabel-icon': {
+    opacity: 1,
+  },
+}));
 
 export default TableHeader;

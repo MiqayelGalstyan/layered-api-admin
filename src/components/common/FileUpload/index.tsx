@@ -13,6 +13,7 @@ interface IFileUploadProps {
 const FileUpload: FC<IFileUploadProps> = ({ onChange, width = 300, imagePath = '' }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(imagePath);
 
+
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -31,9 +32,6 @@ const FileUpload: FC<IFileUploadProps> = ({ onChange, width = 300, imagePath = '
         setImagePreview(null);
         onChange(null);
     };
-
-
-    console.log(imagePath, 'imagePath')
 
     return (
         <Box

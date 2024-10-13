@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import AnalyticsIcon from '@assets/icons/analytics.icon.svg?react';
 import UsersIcon from '@assets/icons/users.icon.svg?react';
 import LayersIcon from '@assets/icons/layers.icon.svg?react';
+import SecurityIcon from '@mui/icons-material/Security';
 import CheckboxLayersIcon from '@assets/icons/checkbox-layeers.icon.svg?react';
 import { Link, useLocation } from 'react-router-dom';
 import { PAGE_ROUTES_PRIVATE } from '@app/routes/types';
@@ -15,6 +16,7 @@ import theme from '@app/theme';
 export enum MENU_ITEMS {
   DASHBOARD = 'Dashboard',
   USERS = 'Users',
+  ROLES = 'Roles'
 }
 
 export interface NavigationItem {
@@ -30,13 +32,15 @@ type IconType =
   | typeof AnalyticsIcon
   | typeof UsersIcon
   | typeof LayersIcon
-  | typeof CheckboxLayersIcon;
+  | typeof CheckboxLayersIcon
+  | typeof SecurityIcon;
 type IconMapType = Record<string, IconType>;
 
 const MenuItem: FC<MenuItemProps> = ({ text, route, icon }) => {
   const icons: IconMapType = {
     [MENU_ITEMS.DASHBOARD]: AnalyticsIcon,
     [MENU_ITEMS.USERS]: UsersIcon,
+    [MENU_ITEMS.ROLES]: SecurityIcon,
   };
   const IconComponent = icon ? icons[icon] : null;
 

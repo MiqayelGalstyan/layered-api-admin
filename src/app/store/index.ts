@@ -19,6 +19,7 @@ import { authApi } from '@modules/auth/api/auth.api';
 import { profileApi } from '@modules/profile';
 import { googlePlaceApi } from '@modules/googlePlace';
 import { userApi } from '@modules/users';
+import { roleApi } from '@modules/roles/api/role.api';
 
 
 
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
+  [roleApi.reducerPath]: roleApi.reducer,
   [googlePlaceApi.reducerPath]: googlePlaceApi.reducer,
 });
 
@@ -71,6 +73,7 @@ export const store = configureStore({
       authApi.middleware,
       profileApi.middleware,
       userApi.middleware,
+      roleApi.middleware,
       googlePlaceApi.middleware,
     ),
 });

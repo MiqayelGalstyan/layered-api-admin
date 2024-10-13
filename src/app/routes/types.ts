@@ -6,4 +6,5 @@ export enum PAGE_ROUTES_PUBLIC {
 export enum PAGE_ROUTES_PRIVATE {
   USERS = '/users',
   PROFILE = '/profile',
+  ROLES = '/roles'
 }

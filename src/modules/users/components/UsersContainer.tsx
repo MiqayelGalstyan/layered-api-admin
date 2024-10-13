@@ -10,6 +10,7 @@ import useToast from '@app/hooks/useToast';
 import { useAppSelector } from '@app/store/hook';
 import { Role } from '@app/types/role.types';
 import { RequestError } from '@app/types/error';
+import CreateUserModal from './CreateUserModal';
 
 
 const UsersContainer = () => {
@@ -17,17 +18,35 @@ const UsersContainer = () => {
     const { data, isLoading, refetch } = useGetUsersQuery({ page: 1, limit: 10 });
     const [removeUser, { isLoading: isUserDeleteLoading }] = useRemoveUserMutation();
 
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<number | undefined>();
+
+    const [createUserModalOpen, setCreateUserModalOpen] = useState<boolean>(false);
 
     const user = useAppSelector(({ auth }) => auth.user);
 
     const toast = useToast();
 
-    const onModalOpen = (id: number) => {
-        setIsModalOpen(true);
+    const onDeleteModalOpen = (id: number) => {
+        setIsDeleteModalOpen(true);
         setSelectedUserId(id);
     }
+
+    const onDeleteModalClose = () => {
+        setIsDeleteModalOpen(false);
+        setSelectedUserId(undefined);
+    }
+
+
+    const onCreateUserModalOpen = () => {
+        setCreateUserModalOpen(true);
+    }
+
+    const onCreateUserModalClose = () => {
+        setCreateUserModalOpen(false);
+    }
+
+
 
 
     const columns = [
@@ -40,7 +59,7 @@ const UsersContainer = () => {
                 render: (row: IUser) => {
                     if (user.id !== row.id) {
                         return (
-                            <Button onClick={() => onModalOpen(row.id)}><DeleteIcon color='error' /></Button>
+                            <Button onClick={() => onDeleteModalOpen(row.id)}><DeleteIcon color='error' /></Button>
                         )
                     }
                     return null;
@@ -49,10 +68,7 @@ const UsersContainer = () => {
         ] : []),
     ];
 
-    const onModalClose = () => {
-        setIsModalOpen(false);
-        setSelectedUserId(undefined);
-    }
+
 
     const onDeleteUser = async () => {
         if (!selectedUserId) {
@@ -68,7 +84,7 @@ const UsersContainer = () => {
             const errorMessage = error as RequestError;
             toast.error(errorMessage.data);
         } finally {
-            onModalClose();
+            onDeleteModalClose();
         }
     }
 
@@ -81,6 +97,11 @@ const UsersContainer = () => {
                 marginTop: '35px',
                 marginBottom: '10px',
             }}>
+                {user?.roleId === Role.SUPER_ADMIN && (
+                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button variant="contained" onClick={onCreateUserModalOpen}>Create New User</Button>
+                    </Box>
+                )}
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -101,9 +122,14 @@ const UsersContainer = () => {
                 </Box>
             </Box>
             <DeleteUserModal
-                onClose={onModalClose}
-                open={isModalOpen}
-                onSubmit={onDeleteUser} />
+                onClose={onDeleteModalClose}
+                open={isDeleteModalOpen}
+                onSubmit={onDeleteUser}
+            />
+            <CreateUserModal
+                open={createUserModalOpen}
+                onClose={onCreateUserModalClose}
+            />
         </>
     )
 }
